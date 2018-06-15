@@ -25,9 +25,14 @@ doctrine_cache:
             type: file_system
 
 doctrine_phpcr:
+    odm:
+        auto_mapping: true
+        auto_generate_proxy_classes: "%kernel.debug%"
     session:
         workspace: default
         backend:
+            logging: "%kernel.debug%"
+            profiling: "%kernel.debug%"
             type: doctrinedbal
             connection: "%phpmob.flysystem.phpcr.connection%"
             caches:
