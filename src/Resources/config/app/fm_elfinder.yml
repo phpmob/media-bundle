@@ -1,5 +1,5 @@
 fm_elfinder:
-    assets_path: /assets #this is where css/js elfinder files are
+    assets_path: '%phpmob.fm_elfinder.asset_path%'
     instances:
         phpmob:
             locale: "LANG" # defaults to current request locale
@@ -14,8 +14,8 @@ fm_elfinder:
                 #debug: true|false # defaults to false
                 roots:       # at least one root must be defined, defines root filemanager directories
                     private:
-                        url: media/cache/resolve/strip/private
-                        tmb_path: "%kernel.root_dir%/../web/thumbnail"
+                        url: 'phpmob.fm_elfinder.url_private'
+                        tmb_path: "%phpmob.fm_elfinder.tmp_path_private%"
                         tmb_url: /thumbnail
                         tmb_path_mode: 0755
                         #show_hidden: true|false # defaults to false, hides dotfiles
@@ -38,8 +38,8 @@ fm_elfinder:
                                 targets: ['\','/',':','*','?','"','<','>','|', ' ']
                                 replace: "-"
                     public:
-                        url: media/cache/resolve/strip/public
-                        tmb_path: "%kernel.root_dir%/../web/thumbnail"
+                        url: '%phpmob.fm_elfinder.url_public%'
+                        tmb_path: "%phpmob.fm_elfinder.tmp_path_private%"
                         tmb_url: /thumbnail
                         tmb_path_mode: 0755
                         driver: Flysystem

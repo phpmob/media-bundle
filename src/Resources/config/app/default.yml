@@ -1,5 +1,12 @@
+## NOTE: Register `PhpMobMediaBundle` before related vendors.
+
 parameters:
     phpmob.imagine.loader: default
+    phpmob.fm_elfinder.tmp_path_private: "%kernel.root_dir%/../web/thumbnail"
+    phpmob.fm_elfinder.tmp_path_public: "%kernel.root_dir%/../web/thumbnail"
+    phpmob.fm_elfinder.url_private: "media/cache/resolve/strip/private"
+    phpmob.fm_elfinder.url_public: "media/cache/resolve/strip/public"
+    phpmob.fm_elfinder.asset_path: "/assets"
     phpmob.uploader.local_directory: "%kernel.root_dir%/../var/media"
     phpmob.flysystem.cache_adapter: "cache.app"
 #    liip_imagine.pngquant.binary: /usr/local/bin/pngquant
