@@ -15,6 +15,7 @@
             {% set imagePreview %}
                 <label for="{{ form.file.vars.id }}" style="cursor: pointer">
                     <img src="{{ form.vars.data|phpmob_imagine(sizing, inset, default) }}"
+                         id="img-{{ form.file.vars.id }}"
                          style="width: {{ width }}px"
                          class="align-self-center mr-3 phpmob-image-preview">
                 </label>
@@ -38,6 +39,24 @@
                     {% endif %}
                 </div>
             </div>
+            <script>
+                (function () {
+                    var fileEl = document.querySelector('#{{ form.file.vars.id }}');
+                    var imgEl = document.querySelector('#img-{{ form.file.vars.id }}');
+                    var imgSrc = imgEl.src;
+                    fileEl.addEventListener('change', function () {
+                        if (this.files && this.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                imgEl.setAttribute('src', e.target.result);
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        } else {
+                            imgEl.setAttribute('src', imgSrc);
+                        }
+                    });
+                })();
+            </script>
         {% endif %}
     {% endspaceless %}
 {% endblock %}
