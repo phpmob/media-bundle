@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.1",
 
-        "helios-ag/fm-elfinder-bundle": "^6.2",
+        "helios-ag/fm-elfinder-bundle": "^8",
         "league/flysystem-cached-adapter": "^1.0",
         "liip/imagine-bundle": "^1.6",
         "oneup/flysystem-bundle": "^2.0",
