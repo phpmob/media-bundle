@@ -14,7 +14,7 @@ fm_elfinder:
                 #debug: true|false # defaults to false
                 roots:       # at least one root must be defined, defines root filemanager directories
                     private:
-                        url: 'phpmob.fm_elfinder.url_private'
+                        url: '%phpmob.fm_elfinder.url_private%'
                         tmb_path: "%phpmob.fm_elfinder.tmp_path_private%"
                         tmb_url: /thumbnail
                         tmb_path_mode: 0755
