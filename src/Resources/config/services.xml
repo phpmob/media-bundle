@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="phpmob.registry.image_types" class="PhpMob\MediaBundle\Registry\ImageTypeRegistry" public="true">
+            <argument>%phpmob.filters%</argument>
+        </service>
+
+        <service id="phpmob.filesystem_uploader" class="PhpMob\MediaBundle\Uploader\FileUploader" public="true">
+            <argument type="service" id="oneup_flysystem.phpmob_filesystem"/>
+        </service>
+
+        <service class="PhpMob\MediaBundle\EventListener\UploadFileListener">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <tag name="doctrine.event_subscriber"/>
+        </service>
+
+        <service class="PhpMob\MediaBundle\EventListener\DoctrineEventManagerImageTypeRegistryListener">
+            <argument type="service" id="phpmob.registry.image_types"/>
+            <tag name="doctrine.event_listener" event="imageTypeRegistry"/>
+        </service>
+
+        <service class="PhpMob\MediaBundle\Twig\ImagineExtension">
+            <argument type="service" id="liip_imagine.cache.manager"/>
+            <argument>%phpmob.imagine.filter%</argument>
+            <argument>%phpmob.imagine.default_image%</argument>
+            <tag name="twig.extension"/>
+        </service>
+
+        <service class="PhpMob\MediaBundle\Imagine\Cache\CacheManager"
+                 parent="liip_imagine.cache.manager"
+                 decorates="liip_imagine.cache.manager">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service class="League\Flysystem\AdapterInterface" id="phpmob.filesystem.adapter" public="true">
+            <factory service="oneup_flysystem.phpmob_filesystem" method="getAdapter"/>
+        </service>
+
+        <service class="PhpMob\MediaBundle\Controller\DownloadController" id="phpmob.controller.download" public="true">
+            <argument type="service" id="oneup_flysystem.phpmob_filesystem"/>
+        </service>
+    </services>
+</container>

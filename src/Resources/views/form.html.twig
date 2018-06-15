@@ -1,0 +1,43 @@
+{% block phpmob_image_widget %}
+    {% spaceless %}
+        {% if simple|default(false) %}
+            {{ form_widget(form.file) }}
+            {{ form_errors(form.file) }}
+        {% else %}
+            {% set isCollection = form.parent.vars.allow_delete|default %}
+            {% set removeAttr = isCollection ? {style: 'display: none'} : {} %}
+            {% set sizing = filter.sizing|default('100x100') %}
+            {% set width = sizing|split('x')[0] %}
+            {% set default = defaultImagePreview|default(filter.default|default(phpmob_imagine.default_image)) %}
+            {% set inset = filter.inset is defined and filter.inset == true %}
+            {% set caption = caption is not defined or caption == true %}
+            {% set remove = remove is not defined or remove == true %}
+            {% set imagePreview %}
+                <label for="{{ form.file.vars.id }}" style="cursor: pointer">
+                    <img src="{{ form.vars.data|phpmob_imagine(sizing, inset, default) }}"
+                         style="width: {{ width }}px"
+                         class="align-self-center mr-3 phpmob-image-preview">
+                </label>
+            {% endset %}
+            <div class="media phpmob-image-widget">
+                {{ imagePreview|raw }}
+                <div class="media-body">
+                    <label class="custom-file mb-2">
+                        {{ form_widget(form.file, { attr: { class: 'custom-file-input' }}) }}
+                        <span class="custom-file-control"></span>
+                        {{ form_errors(form.file) }}
+                    </label>
+                    {% if form.type is defined %}
+                        {{ form_row(form.type) }}
+                    {% endif %}
+                    {% if caption %}
+                        {{ form_row(form.caption) }}
+                    {% endif %}
+                    {% if remove %}
+                        {{ form_row(form.shouldRemove, { label_attr: removeAttr }) }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}

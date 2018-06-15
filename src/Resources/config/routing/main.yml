@@ -1,0 +1,39 @@
+liip_imagine_filter_runtime:
+    path: /media/resolve/{filter}/rc/{hash}/{path}
+    defaults:
+        _controller: '%liip_imagine.controller.filter_runtime_action%'
+    methods:
+        - GET
+    requirements:
+        filter: '[A-z0-9_-]*'
+        path: .+
+
+liip_imagine_filter:
+    path: /media/resolve/{filter}/{path}
+    defaults:
+        _controller: '%liip_imagine.controller.filter_action%'
+    methods:
+        - GET
+    requirements:
+        filter: '[A-z0-9_-]*'
+        path: .+
+
+phpmob_imagine_filter:
+    path: /media/imagine/{sizing}/{path}
+    defaults:
+        _controller: PhpMobMediaBundle:Image:filterRuntime
+    methods:
+        - GET
+    requirements:
+        sizing: '^[0-9]+x[0-9]+'
+        path: .+
+        mode: "inset|outbound"
+
+phpmob_imagine_download:
+    path: /media/download/{path}
+    defaults:
+        _controller: phpmob.controller.download:downloadAction
+    methods:
+        - GET
+    requirements:
+        path: .+

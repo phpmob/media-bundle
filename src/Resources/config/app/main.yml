@@ -1,0 +1,68 @@
+parameters:
+    phpmob.imagine.loader: default
+    phpmob.uploader.local_directory: "%kernel.root_dir%/../var/media"
+    phpmob.flysystem.cache_adapter: "cache.app"
+#    liip_imagine.pngquant.binary: /usr/local/bin/pngquant
+#    liip_imagine.mozjpeg.binary: /usr/local/bin/cjpeg
+
+imports:
+    - { resource: "@PhpMobMediaBundle/Resources/config/app/fm_elfinder.yml" }
+
+doctrine:
+    dbal:
+        types:
+            phpmob_image_type: PhpMob\MediaBundle\Doctrine\DBAL\Type\ImageType
+
+liip_imagine:
+    driver: "%phpmob.imagine.driver%"
+    loaders:
+        default:
+            filesystem:
+                data_root:
+                    - "%phpmob.uploader.local_directory%"
+                bundle_resources:
+                    enabled: true
+                    access_control_type: whitelist
+                    access_control_list:
+                        - PhpMobMediaBundle
+
+    filter_sets:
+        strip:
+            quality: "%phpmob.imagine.quality%"
+            jpeg_quality: "%phpmob.imagine.quality%"
+            data_loader: "%phpmob.imagine.loader%"
+            animated: true
+            filters: ~
+#            post_processors:
+#                pngquant: { quality: "90-95" }
+#                mozjpeg: { quality: 95 }
+
+twig:
+    form_themes:
+        - "@PhpMobMedia/form.html.twig"
+    globals:
+        phpmob_imagine:
+            default_image: "%phpmob.imagine.default_image%"
+
+framework:
+    cache:
+        pools:
+            cache.flysystem:
+                adapter: "%phpmob.flysystem.cache_adapter%"
+
+oneup_flysystem:
+    cache:
+        phpmob_cache:
+            psr6:
+                service: cache.flysystem
+                key: phpmob_media
+                expires: ~
+    adapters:
+        phpmob_local:
+            local:
+                directory: "%phpmob.uploader.local_directory%"
+    filesystems:
+        phpmob:
+            adapter: phpmob_local
+            #https://github.com/thephpleague/flysystem-cached-adapter/issues/29
+            #cache: phpmob_cache
