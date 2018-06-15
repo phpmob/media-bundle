@@ -13,26 +13,27 @@
             <argument type="service" id="oneup_flysystem.phpmob_filesystem"/>
         </service>
 
-        <service class="PhpMob\MediaBundle\EventListener\UploadFileListener">
+        <service id="phpmob.listener.upload_file" class="PhpMob\MediaBundle\EventListener\UploadFileListener">
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
             <tag name="doctrine.event_subscriber"/>
         </service>
 
-        <service class="PhpMob\MediaBundle\EventListener\DoctrineEventManagerImageTypeRegistryListener">
+        <service id="phpmob.listener.doctrine_event_manager_image_type"
+                 class="PhpMob\MediaBundle\EventListener\DoctrineEventManagerImageTypeRegistryListener">
             <argument type="service" id="phpmob.registry.image_types"/>
             <tag name="doctrine.event_listener" event="imageTypeRegistry"/>
         </service>
 
-        <service class="PhpMob\MediaBundle\Twig\ImagineExtension">
+        <service id="phpmob.twig.imagine_extension" class="PhpMob\MediaBundle\Twig\ImagineExtension">
             <argument type="service" id="liip_imagine.cache.manager"/>
             <argument>%phpmob.imagine.filter%</argument>
             <argument>%phpmob.imagine.default_image%</argument>
             <tag name="twig.extension"/>
         </service>
 
-        <service class="PhpMob\MediaBundle\Imagine\Cache\CacheManager"
+        <service id="phpmob.imagine_cache_manager" class="PhpMob\MediaBundle\Imagine\Cache\CacheManager"
                  parent="liip_imagine.cache.manager"
                  decorates="liip_imagine.cache.manager">
             <call method="setContainer">

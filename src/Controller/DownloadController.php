@@ -1,11 +1,19 @@
 <?php
 
+/*
+ * This file is part of the PhpMob package.
+ *
+ * (c) Ishmael Doss <nukboon@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace PhpMob\MediaBundle\Controller;
 
 use League\Flysystem\FilesystemInterface;
-use PhpMob\MediaBundle\Model\ImageInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use PhpMob\MediaBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,6 +34,7 @@ class DownloadController
      * @param string $path
      *
      * @return Response
+     * @throws \League\Flysystem\FileNotFoundException
      */
     public function downloadAction(string $path): Response
     {

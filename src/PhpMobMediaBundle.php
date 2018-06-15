@@ -17,8 +17,10 @@ use Sylius\Bundle\ResourceBundle\AbstractResourceBundle;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-// TODO: https://github.com/helios-ag/FMElfinderBundle/issues/294
-define('ELFINDER_IMG_PARENT_URL', '/assets/elfinder/dist');
+// FIXME: https://github.com/helios-ag/FMElfinderBundle/issues/294
+if (!defined('ELFINDER_IMG_PARENT_URL')) {
+    define('ELFINDER_IMG_PARENT_URL', '/assets/elfinder/dist');
+}
 
 /**
  * @author Ishmael Doss <nukboon@gmail.com>
