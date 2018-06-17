@@ -15,7 +15,6 @@ namespace PhpMob\MediaBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Doctrine\Common\Persistence\Event\PreUpdateEventArgs;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
 use PhpMob\MediaBundle\Model\FileInterface;
@@ -61,7 +60,7 @@ class UploadFileListener implements EventSubscriber
     /**
      * {@inheritdoc}
      */
-    public function preUpdate(PreUpdateEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args)
     {
         $this->uploadFile($args->getObject());
     }
