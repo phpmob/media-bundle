@@ -23,8 +23,11 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Ishmael Doss <nukboon@gmail.com>
@@ -92,6 +95,16 @@ abstract class ImageType extends AbstractResourceType
                 'required' => false,
             ])
         ;
+
+        if ($options['check_file_error']) {
+            $builder->get('file')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                $file = $event->getData();
+
+                if ($file && $file instanceof UploadedFile && false === $file->isValid()) {
+                    $event->getForm()->addError(new FormError($file->getErrorMessage()));
+                }
+            });
+        }
     }
 
     /**
@@ -106,6 +119,17 @@ abstract class ImageType extends AbstractResourceType
 
             $event->setData($data);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        parent::configureOptions($resolver);
+
+        // should override with your own validator
+        $resolver->setDefault('check_file_error', true);
     }
 
     /**
