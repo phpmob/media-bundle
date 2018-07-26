@@ -24,7 +24,7 @@
                 {{ imagePreview|raw }}
                 <div class="media-body">
                     <div class="custom-file mb-2">
-                        {{ form_widget(form.file, { attr: { class: 'custom-file-input' }}) }}
+                        {{ form_widget(form.file) }}
                         {{ form_label(form.file) }}
                         {{ form_errors(form.file) }}
                     </div>
