@@ -190,4 +190,12 @@ abstract class File implements FileInterface
         $this->shouldRemove = $shouldRemove;
         $this->updatedAt = new \DateTime();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString(): string
+    {
+        return \strval($this->path);
+    }
 }
