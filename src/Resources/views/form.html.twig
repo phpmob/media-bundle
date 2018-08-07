@@ -25,7 +25,6 @@
                 <div class="media-body">
                     <div class="custom-file mb-2">
                         {{ form_widget(form.file) }}
-                        {{ form_label(form.file) }}
                         {{ form_errors(form.file) }}
                     </div>
                     {% if form.type is defined %}
@@ -36,6 +35,19 @@
                     {% endif %}
                     {% if remove %}
                         {{ form_row(form.shouldRemove, { label_attr: removeAttr }) }}
+                    {% endif %}
+                    {% if data and data.path and preview_route|default(false) %}
+                        <a target="_blank"
+                           href="{{ path(preview_route, { filter: data.type.filter|default('strip'), path: data.path }) }}">
+                            <i class="fa fa-external-link-alt"></i>
+                            {{ 'phpmob.form.image.preview'|trans }}
+                        </a>
+                    {% endif %}
+                    {% if data and data.path and preview_link|default(false) %}
+                        <a target="_blank" href="{{ preview_link }}">
+                            <i class="fa fa-external-link-alt"></i>
+                            {{ 'phpmob.form.image.preview'|trans }}
+                        </a>
                     {% endif %}
                 </div>
             </div>

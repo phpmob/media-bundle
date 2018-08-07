@@ -17,6 +17,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
+use PhpMob\MediaBundle\Model\FileAwareInterface;
 use PhpMob\MediaBundle\Model\FileInterface;
 use PhpMob\MediaBundle\Uploader\FileUploaderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -45,6 +46,7 @@ class UploadFileListener implements EventSubscriber
         return [
             'prePersist',
             'preUpdate',
+            'postUpdate',
             'postRemove',
         ];
     }
@@ -62,7 +64,27 @@ class UploadFileListener implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        $this->uploadFile($args->getObject());
+        $this->uploadFile($object = $args->getObject());
+    }
+
+    /**
+     * FIXME: this should be done on `owner` event, to prevent double sql oparations,
+     * FIXME: (cont) But now `Owner` (`FileAwareInterface`) has no getter of `FileInterface` to do this.
+     *
+     * {@inheritdoc}
+     */
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+
+        if (!$object instanceof FileInterface) {
+            return;
+        }
+
+        // should clear file object also.
+        if ($object->isShouldRemove()) {
+            $args->getObjectManager()->remove($object);
+        }
     }
 
     /**

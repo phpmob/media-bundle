@@ -114,6 +114,10 @@ abstract class ImageType extends AbstractResourceType
     {
         $data = $event->getData();
 
+        if (!array_key_exists('file', $data)) {
+            return;
+        }
+
         if (is_string($base64String = $data['file'])) {
             $data['file'] = Base64ToFile::createUploadedFile($data['file']);
 
