@@ -49,7 +49,7 @@ class FileUploader implements FileUploaderInterface
 
         do {
             $hash = md5(uniqid((string)mt_rand(), true));
-            $path = preg_replace('|/+|', '/', $file->getBasePath().'/'.$hash.'.'.$file->getFile()->guessExtension());
+            $path = preg_replace('|/+|', '/', $file->getBasePath().'/'.$hash.'.'.$file->getFile()->getExtension());
         } while ($this->has($path));
 
         $file->setPath($path);
